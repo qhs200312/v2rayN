@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "v2rayN.sln",
+    "projects": [
+      "ServiceLib.UdpTest\\ServiceLib.UdpTest.csproj",
+      "ServiceLib\\ServiceLib.csproj",
+      "v2rayN.WinUI\\v2rayN.WinUI.csproj"
+    ]
+  }
+}

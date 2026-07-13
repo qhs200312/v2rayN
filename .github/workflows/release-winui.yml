@@ -1,0 +1,74 @@
+name: Release WinUI
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: v2rayN
+    strategy:
+      matrix:
+        include:
+          - rid: win-x64
+            package: v2rayN-windows-64
+          - rid: win-arm64
+            package: v2rayN-windows-arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish WinUI and updater
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          if ($version -notmatch '^\d+\.\d+\.\d+') {
+            $version = '7.23.5'
+          }
+          $appOutput = Join-Path $env:RUNNER_TEMP "app-${{ matrix.rid }}"
+          $toolOutput = Join-Path $env:RUNNER_TEMP "tool-${{ matrix.rid }}"
+          $packageRoot = Join-Path $env:RUNNER_TEMP "${{ matrix.package }}"
+
+          dotnet publish v2rayN.WinUI/v2rayN.WinUI.csproj `
+            -c Release -r "${{ matrix.rid }}" --self-contained true `
+            -p:Version=$version -p:PublishSingleFile=false -o $appOutput
+          dotnet publish AmazTool/AmazTool.csproj `
+            -c Release -r "${{ matrix.rid }}" --self-contained true `
+            -p:Version=$version -p:PublishSingleFile=true -o $toolOutput
+
+          New-Item -ItemType Directory -Path $packageRoot -Force | Out-Null
+          Copy-Item (Join-Path $appOutput '*') $packageRoot -Recurse -Force
+          Copy-Item (Join-Path $toolOutput 'AmazTool.exe') $packageRoot -Force
+          Compress-Archive -Path $packageRoot -DestinationPath "${{ matrix.package }}.zip" -Force
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}
+          path: v2rayN/${{ matrix.package }}.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: windows
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v2rayN-windows-*
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: v2rayN-windows-*.zip

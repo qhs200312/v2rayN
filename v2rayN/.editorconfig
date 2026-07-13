@@ -1,0 +1,6 @@
+root = true
+
+[*.cs]
+# IDE style suggestions are not build failures. Compiler and code-quality diagnostics remain enabled.
+dotnet_analyzer_diagnostic.category-Style.severity = none
+

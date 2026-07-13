@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>v2rayN.WinUI</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\v2rayN.ico</ApplicationIcon>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <PublishSingleFile>false</PublishSingleFile>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Managed WinUI builds do not need vcmeta. Avoid a Windows App SDK probe that crashes when VS lacks C++ tools. -->
+    <VCInstallPath32 Condition="'$(VCToolsInstallDir)' == '' and '$(VsInstallRoot)' != '' and !Exists('$(VsInstallRoot)\VC\Tools\MSVC')">NUL</VCInstallPath32>
+    <VCInstallPath64 Condition="'$(VCToolsInstallDir)' == '' and '$(VsInstallRoot)' != '' and !Exists('$(VsInstallRoot)\VC\Tools\MSVC')">NUL</VCInstallPath64>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="ReactiveUI.WinUI" />
+    <PackageReference Include="System.Drawing.Common" />
+    <ProjectReference Include="..\ServiceLib\ServiceLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\v2rayN.ico" />
+    <Content Include="Assets\NotifyIcon*.ico" />
+  </ItemGroup>
+
+  <Target Name="BuildUpgradeTool" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true'">
+    <MSBuild
+      Projects="..\AmazTool\AmazTool.csproj"
+      Targets="Restore;Build"
+      Properties="Configuration=$(Configuration);Platform=AnyCPU;UpgradeToolDestination=$(TargetDir)" />
+  </Target>
+
+</Project>

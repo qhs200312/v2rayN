@@ -1,0 +1,16 @@
+.vs/
+.idea/
+artifacts/
+**/bin/
+**/obj/
+**/guiConfigs/
+**/guiLogs/
+**/binConfigs/
+*.user
+*.suo
+*.cache
+*.db
+*.db-shm
+*.db-wal
+TestResults/
+

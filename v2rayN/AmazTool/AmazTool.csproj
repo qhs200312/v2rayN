@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resx\Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+
+		<Compile Update="Resx\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<Target Name="CopyUpgradeTool" AfterTargets="Build" Condition="'$(UpgradeToolDestination)' != ''">
+		<ItemGroup>
+			<_UpgradeToolFiles Include="$(TargetDir)**\*" Exclude="$(TargetDir)**\*.pdb" />
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(_UpgradeToolFiles)"
+			DestinationFiles="@(_UpgradeToolFiles->'$(UpgradeToolDestination)%(RecursiveDir)%(Filename)%(Extension)')"
+			SkipUnchangedFiles="true" />
+	</Target>
+
+</Project>
