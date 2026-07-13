@@ -35,7 +35,7 @@ jobs:
         run: |
           $version = "${{ github.ref_name }}".TrimStart('v')
           if ($version -notmatch '^\d+\.\d+\.\d+') {
-            $version = '7.23.5'
+            $version = '7.23.6'
           }
           $appOutput = Join-Path $env:RUNNER_TEMP "app-${{ matrix.rid }}"
           $toolOutput = Join-Path $env:RUNNER_TEMP "tool-${{ matrix.rid }}"
