@@ -1,81 +1,39 @@
-# v2rayN
+# v2rayN WinUI 3
 
-> Custom WinUI build maintained at https://github.com/qhs200312/v2rayN.
-> Windows releases are published automatically from version tags.
+基于 [v2rayN](https://github.com/2dust/v2rayN) 使用 WinUI 3 重构的 Windows 代理客户端。
 
-### A GUI client for Windows, Linux and macOS. Support [Xray](https://github.com/XTLS/Xray-core) and [sing-box](https://github.com/SagerNet/sing-box) and [others](https://github.com/2dust/v2rayN/wiki/List-of-supported-cores)
+本项目专注于 Windows 桌面体验，支持 Xray、sing-box、Mihomo 等代理核心，并修复了一些安装、更新、TUN 和系统代理相关问题。
 
-[![CodeFactor](https://www.codefactor.io/repository/github/2dust/v2rayn/badge)](https://www.codefactor.io/repository/github/2dust/v2rayn)
-[![Release](https://img.shields.io/github/v/release/2dust/v2rayN?logo=github&label=Release)](https://github.com/2dust/v2rayN/releases)
-[![Downloads](https://img.shields.io/github/downloads/2dust/v2rayN/latest/total?logo=github&label=Downloads)](https://github.com/2dust/v2rayN/releases)
-[![Telegram](https://img.shields.io/badge/Telegram-Chat-26A5E4?logo=telegram)](https://t.me/v2rayn)
- 
-[![Windows](https://img.shields.io/badge/Windows-supported-0078D6?logo=windows)](https://github.com/2dust/v2rayN) 
-[![Linux](https://img.shields.io/badge/Linux-supported-FCC624?logo=linux&logoColor=000)](https://github.com/2dust/v2rayN) 
-[![macOS](https://img.shields.io/badge/macOS-supported-000000?logo=apple)](https://github.com/2dust/v2rayN) 
-[![GPG Signed](https://img.shields.io/badge/GPG-signed-4B32C3?logo=gnuprivacyguard)](https://github.com/2dust/v2rayN)
+## 主要功能
 
+- WinUI 3 原生 Windows 界面
+- 支持系统代理和 TUN 模式
+- 支持路由规则、订阅和节点管理
+- 支持通过系统代理检查和下载更新
+- 支持自动退出应用并覆盖安装新版本
+- 安装升级时保留原有节点、设置、日志和数据库
 
----
+## 下载
 
-## Download / 下载
+请从 [GitHub Releases](https://github.com/qhs200312/v2rayN/releases/latest) 下载最新版本。
 
-Download the latest release here:
+| 文件 | 适用设备 | 说明 |
+| --- | --- | --- |
+| `v2rayN-windows-64-setup.exe` | Windows x64 | 包含运行环境和代理核心，推荐使用 |
+| `v2rayN-windows-64.zip` | Windows x64 | 便携版和应用内更新包 |
+| `v2rayN-windows-arm64.zip` | Windows ARM64 | ARM64 便携版和应用内更新包 |
 
-在这里下载最新版本：
+本项目仅发布 Windows 版本，不提供 Linux 或 macOS 版本。
 
-[https://github.com/2dust/v2rayN/releases](https://github.com/2dust/v2rayN/releases)
+## 系统要求
 
+- Windows 10 2004（版本 19041）或更高版本
+- x64 或 ARM64 处理器
 
-> [!TIP]
-> v2rayN is the desktop version. For the mobile version, please visit the v2rayNG \
-> v2rayN 是电脑版，手机版请访问 v2rayNG
->
-> https://github.com/2dust/v2rayNG
+## 升级说明
 
----
+安装器可以识别已有的 v2rayN 便携版或安装目录并直接覆盖升级。升级过程中会保留 `guiConfigs`、日志和数据库，建议重要配置仍定期自行备份。
 
-## Documentation / 使用文档
+## 上游项目
 
-Read the Wiki for usage guides and configuration details.
-
-请阅读 Wiki 获取使用说明和配置教程。
-
-[https://github.com/2dust/v2rayN/wiki](https://github.com/2dust/v2rayN/wiki)
-
----
-
-## Supported Platforms / 支持平台
-
-| Platform / 平台 | x64 | x86 | arm64 | riscv64 | loong64 |
-| --- | --- | --- | --- | --- | --- |
-| Windows | ✅ | ✅ | ✅ | - | - |
-| Linux | ✅ | - | ✅ | ✅ | ✅ |
-| macOS | ✅ | - | ✅ | - | - |
-
----
-
-## GPG Verification / GPG 签名校验
-
-Release files are signed with GPG to verify authenticity and integrity, helping prevent mirror, ISP, or CDN hijacking.
-
-发布文件已使用 GPG 签名，可用于校验文件真实性与完整性，预防镜像站、运营商或 CDN 劫持。
-
-### Fingerprint / 公钥指纹
-
-```text
-7694 5E9F 3E9A 168F 8070 F195 805D 661C
-134D FAF6 8903 C199 463C 31E5 AE90 3AE0
-```
-
----
-
-## Community / 社区
-
-Telegram Group / Telegram 群组：
-
-[https://t.me/v2rayN](https://t.me/v2rayN)
-
-Telegram Channel / Telegram 频道：
-
-[https://t.me/github_2dust](https://t.me/github_2dust)
+本项目基于 [2dust/v2rayN](https://github.com/2dust/v2rayN) 开发。协议、核心支持范围及基础使用文档可参考[上游 Wiki](https://github.com/2dust/v2rayN/wiki)。
