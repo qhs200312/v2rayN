@@ -1,13 +1,13 @@
 #ifndef MyAppVersion
-  #define MyAppVersion "7.23.6"
+  #define MyAppVersion "7.23.7"
 #endif
 
 #ifndef SourceDir
-  #define SourceDir "..\artifacts\installer\v7.23.6\package"
+  #define SourceDir "..\artifacts\installer\v7.23.7\package"
 #endif
 
 #ifndef OutputDir
-  #define OutputDir "..\artifacts\installer\v7.23.6\output"
+  #define OutputDir "..\artifacts\installer\v7.23.7\output"
 #endif
 
 #define MyAppName "v2rayN"

@@ -117,6 +117,11 @@ if ($needsMihomoCompatibleName) {
 
 $requiredFiles = @(
     'v2rayN.exe',
+    'v2rayN.pri',
+    'App.xbf',
+    'MainWindow.xbf',
+    'Views\UpdateManagerView.xbf',
+    'Assets\v2rayN.ico',
     'AmazTool.exe',
     'bin\xray\xray.exe',
     'bin\xray\wintun.dll',

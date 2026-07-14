@@ -41,4 +41,22 @@
       Properties="Configuration=$(Configuration);Platform=AnyCPU;UpgradeToolDestination=$(TargetDir)" />
   </Target>
 
+  <Target Name="CopyWinUIResourcesToPublishDirectory" AfterTargets="Publish">
+    <Error Condition="!Exists('$(TargetDir)$(AssemblyName).pri')" Text="WinUI application PRI resource was not generated." />
+    <Error Condition="!Exists('$(TargetDir)App.xbf') or !Exists('$(TargetDir)MainWindow.xbf')" Text="WinUI application XBF resources were not generated." />
+
+    <ItemGroup>
+      <_WinUIRootResource Include="$(TargetDir)$(AssemblyName).pri;$(TargetDir)App.xbf;$(TargetDir)MainWindow.xbf" />
+      <_WinUIViewResource Include="$(TargetDir)Views\**\*.xbf" />
+      <_WinUIAsset Include="$(TargetDir)Assets\**\*" />
+    </ItemGroup>
+
+    <Error Condition="'@(_WinUIViewResource)' == ''" Text="WinUI view XBF resources were not generated." />
+    <Error Condition="'@(_WinUIAsset)' == ''" Text="WinUI assets were not generated." />
+
+    <Copy SourceFiles="@(_WinUIRootResource)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_WinUIViewResource)" DestinationFiles="@(_WinUIViewResource->'$(PublishDir)Views\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_WinUIAsset)" DestinationFiles="@(_WinUIAsset->'$(PublishDir)Assets\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
 </Project>

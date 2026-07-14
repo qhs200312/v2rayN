@@ -35,7 +35,7 @@ jobs:
         run: |
           $version = "${{ github.ref_name }}".TrimStart('v')
           if ($version -notmatch '^\d+\.\d+\.\d+') {
-            $version = '7.23.6'
+            $version = '7.23.7'
           }
           $appOutput = Join-Path $env:RUNNER_TEMP "app-${{ matrix.rid }}"
           $toolOutput = Join-Path $env:RUNNER_TEMP "tool-${{ matrix.rid }}"
@@ -43,10 +43,23 @@ jobs:
 
           dotnet publish v2rayN.WinUI/v2rayN.WinUI.csproj `
             -c Release -r "${{ matrix.rid }}" --self-contained true `
-            -p:Version=$version -p:PublishSingleFile=false -o $appOutput
+            -p:Version=$version -p:PublishSingleFile=false -warnaserror -o $appOutput
           dotnet publish AmazTool/AmazTool.csproj `
             -c Release -r "${{ matrix.rid }}" --self-contained true `
-            -p:Version=$version -p:PublishSingleFile=true -o $toolOutput
+            -p:Version=$version -p:PublishSingleFile=true -warnaserror -o $toolOutput
+
+          $requiredResources = @(
+            'v2rayN.pri',
+            'App.xbf',
+            'MainWindow.xbf',
+            'Views/UpdateManagerView.xbf',
+            'Assets/v2rayN.ico'
+          )
+          foreach ($relativePath in $requiredResources) {
+            if (-not (Test-Path -LiteralPath (Join-Path $appOutput $relativePath) -PathType Leaf)) {
+              throw "WinUI publish resource is missing: $relativePath"
+            }
+          }
 
           New-Item -ItemType Directory -Path $packageRoot -Force | Out-Null
           Copy-Item (Join-Path $appOutput '*') $packageRoot -Recurse -Force
@@ -60,7 +73,7 @@ jobs:
           choco install innosetup --no-progress -y
           $version = "${{ github.ref_name }}".TrimStart('v')
           if ($version -notmatch '^\d+\.\d+\.\d+') {
-            $version = '7.23.6'
+            $version = '7.23.7'
           }
           ./installer/build-installer.ps1 -Version $version
           Copy-Item "artifacts/installer/v$version/output/v2rayN-windows-64-setup.exe" .
